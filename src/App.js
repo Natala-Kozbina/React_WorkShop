@@ -35,8 +35,10 @@ class Child extends Component {
     }
     render () {
         console.log('Child');
+
         return (
-            <div>Child</div>
+            // <div>{this.props.text}</div>
+            <div>{this.props.children}</div>
         )
     }
 };
@@ -93,7 +95,7 @@ class App extends Component {
       let child;
       console.log("this.state", this.state);
       if(this.state.showChild) {
-          child = <Child />
+          child = <Child className="xxx" text="Child text" />
       }
       console.log("render");
       return (
@@ -103,6 +105,7 @@ class App extends Component {
             <h2 onClick={this.handleClick}>Welcome to React</h2>
             </div>
             {child}
+            <Child>Text<span>Text</span></Child>
             <p className="App-intro">
                 To get started, edit <code>src/App.js</code> and save to reload.
                 </p>
