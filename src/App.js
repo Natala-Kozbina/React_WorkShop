@@ -11,28 +11,6 @@ import './App.css';
 // app.handleClick = bind(app.handleClick, app);
 
 class Child extends Component {
-    componentWillMount() {
-        console.log("componentWillMount Child");
-    }
-    componentDidMount() {
-        console.log("componentDidMount Child");
-    }
-    componentWillReceiveProps() {
-        console.log("componentWillReceiveProps Child");
-    }
-    shouldComponentUpdate() {
-        console.log("shouldComponentUpdate Child");
-        return true;
-    }
-    componentWillUpdate() {
-        console.log("componentWillUpdate Child");
-    }
-    componentDidUpdate() {
-        console.log("componentDidUpdate Child");
-    }
-    componentWillUnmount() {
-        console.log("componentWillUnmount Child");
-    }
     render () {
         console.log('Child');
 
@@ -42,6 +20,23 @@ class Child extends Component {
         )
     }
 };
+
+function submit(WrappedComponent) {
+    function newComponent(props) {
+        //притакой записи нельзя изменить props
+        // return <WrappedComponent type="submit" {...props}>{props.children}</WrappedComponent>;
+        return <WrappedComponent {...props} type="submit">{props.children}</WrappedComponent>;
+    }
+     return newComponent;
+}
+
+function Button(props) {
+    return (
+        <button {...props}>{props.children}</button>
+    )
+}
+
+const SubmitButton = submit(Button);
 
 class App extends Component {
     constructor (props) {
@@ -95,7 +90,8 @@ class App extends Component {
       let child;
       console.log("this.state", this.state);
       if(this.state.showChild) {
-          child = <Child className="xxx" text="Child text" />
+          child = <Child>Text<span>Text</span></Child>
+
       }
       console.log("render");
       return (
@@ -104,8 +100,9 @@ class App extends Component {
             <img src={logo} className="App-logo" alt="logo" />
             <h2 onClick={this.handleClick}>Welcome to React</h2>
             </div>
+            <SubmitButton type="reset">Click me!</SubmitButton>
+            <Button onClick={this.handleClick}>Button</Button>
             {child}
-            <Child>Text<span>Text</span></Child>
             <p className="App-intro">
                 To get started, edit <code>src/App.js</code> and save to reload.
                 </p>
